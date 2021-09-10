@@ -1,0 +1,7 @@
+{
+  "name": "Balance Manager",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
