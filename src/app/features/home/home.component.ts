@@ -1,4 +1,6 @@
+import { ModalAddBalanceComponent } from './modal-add-balance/modal-add-balance.component';
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { ChartOptions, ChartType } from 'chart.js';
 import { Color, Label, MultiDataSet } from 'ng2-charts';
 
@@ -23,10 +25,23 @@ export class HomeComponent implements OnInit {
     },
   };
 
-  constructor() {}
+  constructor(public modalController: ModalController) {}
 
   ngOnInit(): void {}
 
-  public addBalance(): void {}
+  public addBalance(): void {
+    this.presentModal();
+  }
   public addBudget(): void {}
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: ModalAddBalanceComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        type: 'balance',
+      }
+    });
+    return await modal.present();
+  }
 }

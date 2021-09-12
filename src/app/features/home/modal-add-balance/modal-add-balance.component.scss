@@ -1,0 +1,39 @@
+$text-color: #ffff;
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+
+  h2 {
+    color: $text-color;
+  }
+}
+
+.container-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  ion-label {
+    color: $text-color;
+  }
+}
+
+ion-icon {
+  font-size: 25px;
+  color: $text-color;
+}
+
+ion-input {
+  width: 65%;
+  border-bottom: 1px solid $text-color;
+  color: $text-color;
+}
+
+ion-button {
+  width: 65%;
+  --background: var(--ion-color-primary) !important;
+}
