@@ -1,14 +1,47 @@
 <ion-card class="welcome-card">
-    <ion-card-header>
-      <h2 class="title">Welcome Alexa</h2>
-    </ion-card-header>
-    <ion-card-content>
-      <canvas baseChart
-    [data]="doughnutChartData"
-    [labels]="doughnutChartLabels"
-    [chartType]="doughnutChartType"
-    [colors]="color"
-    [options]="option">
-  </canvas>
-    </ion-card-content>
-  </ion-card>
+  <ion-card-header>
+    <h2 class="title">Welcome Alexa</h2>
+  </ion-card-header>
+  <ion-card-content>
+    <canvas
+      baseChart
+      [data]="doughnutChartData"
+      [labels]="doughnutChartLabels"
+      [chartType]="doughnutChartType"
+      [colors]="color"
+      [options]="option"
+    >
+    </canvas>
+  </ion-card-content>
+</ion-card>
+
+<div class="container-cards">
+  <div class="row">
+    <ion-card class="add-balance">
+      <ion-card-content>
+        <ion-icon name="add-outline"></ion-icon>
+        <p>Add balace</p>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="add-budget">
+      <ion-card-content>
+        <ion-icon name="wallet-outline"></ion-icon>
+        <p>Add your budget</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <div class="row">
+    <ion-card class="balance">
+      <ion-card-content>
+        <ion-icon name="card-outline"></ion-icon>
+        <p class="balance-display">1.200<br/> Balance</p>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="exchange">
+      <ion-card-content>
+        <ion-icon name="swap-horizontal-outline"></ion-icon>
+        <p>Exchange today</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</div>
