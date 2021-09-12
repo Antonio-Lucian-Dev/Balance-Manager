@@ -17,7 +17,7 @@
 
 <div class="container-cards">
   <div class="row">
-    <ion-card class="add-balance">
+    <ion-card class="add-balance" (click)="addBalance()">
       <ion-card-content>
         <ion-icon name="add-outline"></ion-icon>
         <p>Add balace</p>
@@ -25,7 +25,7 @@
     </ion-card>
     <ion-card class="add-budget">
       <ion-card-content>
-        <ion-icon name="wallet-outline"></ion-icon>
+        <ion-icon name="wallet-outline" (click)="addBudget()"></ion-icon>
         <p>Add your budget</p>
       </ion-card-content>
     </ion-card>
