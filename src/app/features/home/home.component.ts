@@ -30,17 +30,23 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {}
 
   public addBalance(): void {
-    this.presentModal();
+    this.presentModal('balance');
   }
-  public addBudget(): void {}
+  public addBudget(): void {
+    this.presentModal('budget');
+  }
 
-  async presentModal() {
+  async presentModal(type: string) {
     const modal = await this.modalController.create({
       component: ModalAddBalanceComponent,
-      cssClass: 'my-custom-class',
       componentProps: {
-        type: 'balance',
+        type,
       }
+    });
+    modal.onDidDismiss()
+      .then((data) => {
+        const value = data.data; // Here's your selected user!
+        console.log(value);
     });
     return await modal.present();
   }

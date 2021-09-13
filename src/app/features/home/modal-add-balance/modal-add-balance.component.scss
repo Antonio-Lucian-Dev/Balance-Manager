@@ -1,5 +1,9 @@
 $text-color: #ffff;
 
+.container {
+  height: 100%;
+}
+
 .top {
   display: flex;
   align-items: center;
@@ -16,9 +20,11 @@ $text-color: #ffff;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 90%;
 
   ion-label {
     color: $text-color;
+    margin-bottom: 40px;
   }
 }
 
@@ -31,9 +37,11 @@ ion-input {
   width: 65%;
   border-bottom: 1px solid $text-color;
   color: $text-color;
+  flex: 0;
+  margin-bottom: 25px;
 }
 
 ion-button {
   width: 65%;
-  --background: var(--ion-color-primary) !important;
+  --background: var(--ion-color-secondary) !important;
 }

@@ -5,7 +5,7 @@
  </div>
     <div class="container-input">
       <ion-label>{{label}}</ion-label>
-      <ion-input type="number" value="50"></ion-input>
-      <ion-button expand="block">Send</ion-button>
+      <ion-input type="number" [(ngModel)]="inputValue" placeholder="Insert a value"></ion-input>
+      <ion-button expand="block" (click)="addValue()">Send</ion-button>
     </div>
 </div>

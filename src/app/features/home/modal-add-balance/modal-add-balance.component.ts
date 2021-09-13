@@ -1,5 +1,7 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { formatNumber } from '@angular/common';
+import { Component, Inject, Input, LOCALE_ID, OnInit, Output } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { ValueFromModal } from '../../types/valueFromModal';
 
 @Component({
   selector: 'app-modal-add-balance',
@@ -9,10 +11,14 @@ import { ModalController } from '@ionic/angular';
 export class ModalAddBalanceComponent implements OnInit {
 
   @Input() type: string;
-  @Output() value: number;
+  public inputValue: number;
   public label: string;
+  private valueFromModal: ValueFromModal = {
+    value: undefined,
+    type: null
+  };
 
-  constructor(public modalController: ModalController) { }
+  constructor(public modalController: ModalController, @Inject(LOCALE_ID) public locale: string) { }
 
   ngOnInit(): void {
     if(this.type === 'balance') {
@@ -22,12 +28,18 @@ export class ModalAddBalanceComponent implements OnInit {
     }
   }
 
-  public dismiss() {
+  public addValue(): void {
+    if(this.inputValue) {
+      this.valueFromModal.value = formatNumber(this.inputValue,this.locale);
+      this.valueFromModal.type = this.type;
+    }
+    this.dismiss(this.valueFromModal);
+  }
+
+  public dismiss(value?: ValueFromModal) {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
-    this.modalController.dismiss({
-      dismissed: true
-    });
+    this.modalController.dismiss(value);
   }
 
 }
