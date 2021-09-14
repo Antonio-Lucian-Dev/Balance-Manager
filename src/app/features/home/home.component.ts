@@ -14,6 +14,7 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
   // Doughnut
@@ -22,9 +23,8 @@ export class HomeComponent implements OnInit {
   public doughnutChartType: ChartType = 'doughnut';
   public color: Color[] = [{ backgroundColor: ['#E94560', '#150050'] }];
 
-  public currentBalance: number;
-  public withdrawal: number[] = [];
-
+  public currentBalance: string;
+  public withdrawals: number[] = [];
   public remainingBalance: number;
 
   public option: ChartOptions = {
@@ -68,54 +68,16 @@ export class HomeComponent implements OnInit {
           this.addValueToWithdrawals(data.data.value);
         }
       }
-      /* if (data.data) {
-        if (data.data.type === 'balance') {
-          this.currentBalance = data.data.value;
-          this.doughnutChartData[0][1] = this.currentBalance;
-          this.chart.chart.update();
-        } else {
-          let calculateTotalWithdrawal = this.withdrawal.reduce(
-            (partialSum, a) => partialSum + a,
-            0
-          );
-          console.log('Calculate total withdrwa: ', calculateTotalWithdrawal);
-          if(data.data.value <= this.currentBalance) {
-            this.withdrawal.push(data.data.value);
-            calculateTotalWithdrawal = this.withdrawal.reduce(
-              (partialSum, a) => partialSum + a,
-              0
-            );
-            this.totalWithdrawal = calculateTotalWithdrawal;
-            console.log(this.totalWithdrawal);
-            this.calculateBalance();
-          } else {
-            this.createAlert();
-          }
-        }
-
-      } */
     });
     return await modal.present();
   }
 
-  /*
-  calculateBalance(): void {
-    this.remainingBalance = this.currentBalance - this.totalWithdrawal;
-    this.currentBalance = this.remainingBalance;
-    const totalBalanceFormatted = formatNumber(
-      this.remainingBalance,
-      this.locale
-    );
-    console.log('Remaining balance: ', this.remainingBalance);
-    //this.remainingBalance = formatNumber(this.actualBalance,this.locale);;
-    this.doughnutChartData[0][1] = this.remainingBalance;
-    this.chart.chart.update();
-  } */
 
   private addValueToBalance(currentBalance: number): void {
     if(currentBalance > 0) {
       this.remainingBalance = (this.totalWithdrawal > 0) ? currentBalance - this.totalWithdrawal : currentBalance;
       this.doughnutChartData[0][1] = this.remainingBalance;
+      this.currentBalance = formatNumber(this.remainingBalance, this.locale);
       this.chart.chart.update();
     } else {
       this.createAlert('You entered a wrong value');
@@ -125,24 +87,26 @@ export class HomeComponent implements OnInit {
   private addValueToWithdrawals(currentWithdrawal: number): void {
     if(currentWithdrawal > 0) {
       if (
-        this.withdrawal.length === 0 &&
+        this.withdrawals.length === 0 &&
         currentWithdrawal <= this.remainingBalance
       ) {
-        this.withdrawal.push(currentWithdrawal);
+        this.withdrawals.push(currentWithdrawal);
         this.totalWithdrawal = currentWithdrawal;
         this.remainingBalance = this.remainingBalance - currentWithdrawal;
+        this.currentBalance = formatNumber(this.remainingBalance, this.locale);
         this.doughnutChartData[0][0] = this.totalWithdrawal;
         this.doughnutChartData[0][1] = this.remainingBalance;
         this.chart.chart.update();
       } else if(currentWithdrawal <= this.remainingBalance) {
         if (this.remainingBalance - currentWithdrawal >= 0) {
-          this.withdrawal.push(currentWithdrawal);
-          const calculateTotalWithdrawal = this.withdrawal.reduce(
+          this.withdrawals.push(currentWithdrawal);
+          const calculateTotalWithdrawal = this.withdrawals.reduce(
             (partialSum, a) => partialSum + a,
             0
           );
           this.totalWithdrawal = calculateTotalWithdrawal;
           this.remainingBalance = this.remainingBalance - currentWithdrawal;
+          this.currentBalance = formatNumber(this.remainingBalance, this.locale);
           this.doughnutChartData[0][0] = this.totalWithdrawal;
           this.doughnutChartData[0][1] = this.remainingBalance;
           this.chart.chart.update();
