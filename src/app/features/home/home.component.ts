@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
     },
   };
 
-  private totalWithdrawal: number;
+  private totalWithdrawal = 0;
 
   constructor(
     public modalController: ModalController,
@@ -113,49 +113,55 @@ export class HomeComponent implements OnInit {
   } */
 
   private addValueToBalance(currentBalance: number): void {
-    this.currentBalance = currentBalance;
-    this.remainingBalance = currentBalance;
-    this.doughnutChartData[0][1] = currentBalance;
-    this.chart.chart.update();
+    if(currentBalance > 0) {
+      this.remainingBalance = (this.totalWithdrawal > 0) ? currentBalance - this.totalWithdrawal : currentBalance;
+      this.doughnutChartData[0][1] = this.remainingBalance;
+      this.chart.chart.update();
+    } else {
+      this.createAlert('You entered a wrong value');
+    }
   }
 
   private addValueToWithdrawals(currentWithdrawal: number): void {
-    if (
-      this.withdrawal.length === 0 &&
-      currentWithdrawal <= this.remainingBalance
-    ) {
-      this.withdrawal.push(currentWithdrawal);
-      this.totalWithdrawal = currentWithdrawal;
-      this.remainingBalance = this.remainingBalance - currentWithdrawal;
-      this.doughnutChartData[0][0] = this.totalWithdrawal;
-      this.doughnutChartData[0][1] = this.remainingBalance;
-      this.chart.chart.update();
-    } else if(currentWithdrawal <= this.remainingBalance) {
-      if (this.remainingBalance - currentWithdrawal >= 0) {
+    if(currentWithdrawal > 0) {
+      if (
+        this.withdrawal.length === 0 &&
+        currentWithdrawal <= this.remainingBalance
+      ) {
         this.withdrawal.push(currentWithdrawal);
-        const calculateTotalWithdrawal = this.withdrawal.reduce(
-          (partialSum, a) => partialSum + a,
-          0
-        );
-        this.totalWithdrawal = calculateTotalWithdrawal;
+        this.totalWithdrawal = currentWithdrawal;
         this.remainingBalance = this.remainingBalance - currentWithdrawal;
         this.doughnutChartData[0][0] = this.totalWithdrawal;
         this.doughnutChartData[0][1] = this.remainingBalance;
         this.chart.chart.update();
+      } else if(currentWithdrawal <= this.remainingBalance) {
+        if (this.remainingBalance - currentWithdrawal >= 0) {
+          this.withdrawal.push(currentWithdrawal);
+          const calculateTotalWithdrawal = this.withdrawal.reduce(
+            (partialSum, a) => partialSum + a,
+            0
+          );
+          this.totalWithdrawal = calculateTotalWithdrawal;
+          this.remainingBalance = this.remainingBalance - currentWithdrawal;
+          this.doughnutChartData[0][0] = this.totalWithdrawal;
+          this.doughnutChartData[0][1] = this.remainingBalance;
+          this.chart.chart.update();
+        } else {
+          this.createAlert('Your withdrawals are too large for the balance you have');
+        }
       } else {
-        this.createAlert();
+        this.createAlert('Your withdrawals are too large for the balance you have');
       }
     } else {
-      this.createAlert();
+      this.createAlert('You entered a wrong value');
     }
   }
 
-  private async createAlert() {
+  private async createAlert(message: string) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      header: 'Alert',
-      subHeader: 'Problem with your last withdrawals',
-      message: 'Your withdrawals are too large for the balance you have',
+      header: 'Problem',
+      message,
       buttons: ['OK'],
     });
     await alert.present();
