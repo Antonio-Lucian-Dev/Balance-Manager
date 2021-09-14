@@ -63,14 +63,23 @@ export class HomeComponent implements OnInit {
     modal.onDidDismiss().then((data) => {
       if (data.data) {
         if (data.data.type === 'balance') {
+          this.addValueToBalance(data.data.value);
+        } else {
+          this.addValueToWithdrawals(data.data.value);
+        }
+      }
+      /* if (data.data) {
+        if (data.data.type === 'balance') {
           this.currentBalance = data.data.value;
           this.doughnutChartData[0][1] = this.currentBalance;
+          this.chart.chart.update();
         } else {
           let calculateTotalWithdrawal = this.withdrawal.reduce(
             (partialSum, a) => partialSum + a,
             0
           );
-          if(data.data.value < this.currentBalance && calculateTotalWithdrawal < this.currentBalance) {
+          console.log('Calculate total withdrwa: ', calculateTotalWithdrawal);
+          if(data.data.value <= this.currentBalance) {
             this.withdrawal.push(data.data.value);
             calculateTotalWithdrawal = this.withdrawal.reduce(
               (partialSum, a) => partialSum + a,
@@ -83,22 +92,62 @@ export class HomeComponent implements OnInit {
             this.createAlert();
           }
         }
-        this.chart.chart.update();
-      }
+
+      } */
     });
     return await modal.present();
   }
 
+  /*
   calculateBalance(): void {
-    this.doughnutChartData[0][0] = this.totalWithdrawal;
     this.remainingBalance = this.currentBalance - this.totalWithdrawal;
     this.currentBalance = this.remainingBalance;
     const totalBalanceFormatted = formatNumber(
       this.remainingBalance,
       this.locale
     );
+    console.log('Remaining balance: ', this.remainingBalance);
     //this.remainingBalance = formatNumber(this.actualBalance,this.locale);;
     this.doughnutChartData[0][1] = this.remainingBalance;
+    this.chart.chart.update();
+  } */
+
+  private addValueToBalance(currentBalance: number): void {
+    this.currentBalance = currentBalance;
+    this.remainingBalance = currentBalance;
+    this.doughnutChartData[0][1] = currentBalance;
+    this.chart.chart.update();
+  }
+
+  private addValueToWithdrawals(currentWithdrawal: number): void {
+    if (
+      this.withdrawal.length === 0 &&
+      currentWithdrawal <= this.remainingBalance
+    ) {
+      this.withdrawal.push(currentWithdrawal);
+      this.totalWithdrawal = currentWithdrawal;
+      this.remainingBalance = this.remainingBalance - currentWithdrawal;
+      this.doughnutChartData[0][0] = this.totalWithdrawal;
+      this.doughnutChartData[0][1] = this.remainingBalance;
+      this.chart.chart.update();
+    } else if(currentWithdrawal <= this.remainingBalance) {
+      if (this.remainingBalance - currentWithdrawal >= 0) {
+        this.withdrawal.push(currentWithdrawal);
+        const calculateTotalWithdrawal = this.withdrawal.reduce(
+          (partialSum, a) => partialSum + a,
+          0
+        );
+        this.totalWithdrawal = calculateTotalWithdrawal;
+        this.remainingBalance = this.remainingBalance - currentWithdrawal;
+        this.doughnutChartData[0][0] = this.totalWithdrawal;
+        this.doughnutChartData[0][1] = this.remainingBalance;
+        this.chart.chart.update();
+      } else {
+        this.createAlert();
+      }
+    } else {
+      this.createAlert();
+    }
   }
 
   private async createAlert() {
