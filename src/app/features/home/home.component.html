@@ -31,10 +31,10 @@
     </ion-card>
   </div>
   <div class="row">
-    <ion-card class="balance">
+    <ion-card class="balance" *ngIf="currentBalance">
       <ion-card-content>
         <ion-icon name="card-outline"></ion-icon>
-        <p class="balance-display">1.200<br/> Balance</p>
+        <p class="balance-display">{{currentBalance}}<br/> Balance</p>
       </ion-card-content>
     </ion-card>
     <ion-card class="exchange">

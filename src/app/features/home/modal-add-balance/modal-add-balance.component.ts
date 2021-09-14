@@ -1,5 +1,4 @@
-import { formatNumber } from '@angular/common';
-import { Component, Inject, Input, LOCALE_ID, OnInit, Output } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ValueFromModal } from '../../types/valueFromModal';
 
@@ -18,7 +17,7 @@ export class ModalAddBalanceComponent implements OnInit {
     type: null
   };
 
-  constructor(public modalController: ModalController, @Inject(LOCALE_ID) public locale: string) { }
+  constructor(public modalController: ModalController) { }
 
   ngOnInit(): void {
     if(this.type === 'balance') {
@@ -30,7 +29,8 @@ export class ModalAddBalanceComponent implements OnInit {
 
   public addValue(): void {
     if(this.inputValue) {
-      this.valueFromModal.value = formatNumber(this.inputValue,this.locale);
+      this.valueFromModal.value = this.inputValue;
+      //this.valueFromModal.value = formatNumber(this.inputValue,this.locale);
       this.valueFromModal.type = this.type;
     }
     this.dismiss(this.valueFromModal);

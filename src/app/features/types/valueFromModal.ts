@@ -1,4 +1,4 @@
 export interface ValueFromModal {
-  value: string;
+  value: number;
   type: string;
 }
