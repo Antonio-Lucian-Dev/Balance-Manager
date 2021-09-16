@@ -5,7 +5,6 @@ import { ChartOptions, ChartType } from 'chart.js';
 import { BaseChartDirective, Color, Label, MultiDataSet } from 'ng2-charts';
 import * as Chart from 'chart.js';
 import { formatNumber } from '@angular/common';
-import { async } from 'rxjs';
 import { AlertController } from '@ionic/angular';
 import { History } from '../types/history';
 
@@ -44,7 +43,7 @@ export class HomeComponent implements OnInit {
   constructor(
     public modalController: ModalController,
     @Inject(LOCALE_ID) public locale: string,
-    public alertController: AlertController
+    public alertController: AlertController,
   ) {}
 
   ngOnInit(): void {}

@@ -2,6 +2,7 @@ import { ValueFromModal } from './../../types/valueFromModal';
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-modal-add-balance',
@@ -23,7 +24,8 @@ export class ModalAddBalanceComponent implements OnInit {
 
   constructor(
     public modalController: ModalController,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    public datepipe: DatePipe
   ) {}
 
   ngOnInit(): void {
@@ -40,14 +42,14 @@ export class ModalAddBalanceComponent implements OnInit {
     let response: ValueFromModal;
     if (this.modalForm.valid) {
       this.modalForm.controls.isBalance.setValue(this.isBalance);
-      this.modalForm.controls.createdAt.setValue(new Date().toDateString());
+      this.modalForm.controls.createdAt.setValue(this.datepipe.transform(new Date(), 'dd-MM-yyyy, h:mm a'));
       if (!this.isBalance) {
         response = this.modalForm.value;
         this.dismiss(response);
       }
     } else if (this.modalForm.get('value').valid && this.isBalance) {
       this.modalForm.controls.isBalance.setValue(this.isBalance);
-      this.modalForm.controls.createdAt.setValue(new Date().toDateString());
+      this.modalForm.controls.createdAt.setValue(this.datepipe.transform(new Date(), 'dd-MM-yyyy, h:mm a'));
       response = {
         value: this.modalForm.get('value').value,
         createdAt: this.modalForm.get('createdAt').value,
