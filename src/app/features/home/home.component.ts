@@ -38,6 +38,7 @@ export class HomeComponent implements OnInit {
 
   public history: History[] = [];
   private totalWithdrawal = 0;
+  private valueFromModal;
 
   constructor(
     public modalController: ModalController,
@@ -73,11 +74,13 @@ export class HomeComponent implements OnInit {
     modal.onDidDismiss().then((data) => {
       if (data.data) {
         if (data.data.isBalance) {
+          this.valueFromModal = data.data;
           this.addValueToBalance(data.data.value);
+          console.log(this.valueFromModal);
         } else {
+          this.valueFromModal = data.data;
           this.addValueToWithdrawals(data.data.value);
         }
-        this.addHistory(data.data);
       }
     });
     return await modal.present();
@@ -86,6 +89,7 @@ export class HomeComponent implements OnInit {
 
   private addValueToBalance(currentBalance: number): void {
     if(currentBalance > 0 && currentBalance >= this.totalWithdrawal) {
+      this.addHistory(this.valueFromModal);
       this.remainingBalance = (this.totalWithdrawal > 0) ? currentBalance - this.totalWithdrawal : currentBalance;
       this.doughnutChartData[0][1] = this.remainingBalance;
       this.currentBalance = formatNumber(this.remainingBalance, this.locale);
@@ -108,6 +112,7 @@ export class HomeComponent implements OnInit {
         this.doughnutChartData[0][0] = this.totalWithdrawal;
         this.doughnutChartData[0][1] = this.remainingBalance;
         this.chart.chart.update();
+        this.addHistory(this.valueFromModal);
       } else if(currentWithdrawal <= this.remainingBalance) {
         if (this.remainingBalance - currentWithdrawal >= 0) {
           this.withdrawals.push(currentWithdrawal);
@@ -121,6 +126,7 @@ export class HomeComponent implements OnInit {
           this.doughnutChartData[0][0] = this.totalWithdrawal;
           this.doughnutChartData[0][1] = this.remainingBalance;
           this.chart.chart.update();
+          this.addHistory(this.valueFromModal);
         } else {
           this.createAlert('Your withdrawals are too large for the balance you have');
         }

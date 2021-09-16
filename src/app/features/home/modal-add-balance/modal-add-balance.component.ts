@@ -42,14 +42,14 @@ export class ModalAddBalanceComponent implements OnInit {
     let response: ValueFromModal;
     if (this.modalForm.valid) {
       this.modalForm.controls.isBalance.setValue(this.isBalance);
-      this.modalForm.controls.createdAt.setValue(this.datepipe.transform(new Date(), 'dd-MM-yyyy, h:mm a'));
+      this.modalForm.controls.createdAt.setValue(this.datepipe.transform(new Date(), 'dd/MM/yyyy, h:mm a'));
       if (!this.isBalance) {
         response = this.modalForm.value;
         this.dismiss(response);
       }
     } else if (this.modalForm.get('value').valid && this.isBalance) {
       this.modalForm.controls.isBalance.setValue(this.isBalance);
-      this.modalForm.controls.createdAt.setValue(this.datepipe.transform(new Date(), 'dd-MM-yyyy, h:mm a'));
+      this.modalForm.controls.createdAt.setValue(this.datepipe.transform(new Date(), 'dd/MM/yyyy, h:mm a'));
       response = {
         value: this.modalForm.get('value').value,
         createdAt: this.modalForm.get('createdAt').value,
