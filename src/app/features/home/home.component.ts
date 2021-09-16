@@ -36,9 +36,8 @@ export class HomeComponent implements OnInit {
     },
   };
 
+  public history: History[] = [];
   private totalWithdrawal = 0;
-
-  private history: History[] = [];
 
   constructor(
     public modalController: ModalController,
@@ -53,6 +52,15 @@ export class HomeComponent implements OnInit {
   }
   public addWithdrawal(): void {
     this.presentModal('withdrawal');
+  }
+
+  getLastTwoHistory(): History[] {
+    const lastHistory: History[] = [];
+    lastHistory.push(this.history[this.history.length - 1]);
+    if(this.history.length >= 2) {
+      lastHistory.push(this.history[this.history.length - 2]);
+    }
+    return lastHistory;
   }
 
   async presentModal(type: string) {

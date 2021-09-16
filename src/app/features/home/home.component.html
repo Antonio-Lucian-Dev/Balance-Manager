@@ -1,6 +1,6 @@
 <ion-card class="welcome-card">
   <ion-card-header>
-    <h2 class="title">Welcome Alexa</h2>
+    <ion-card-title class="title">Welcome Alexa</ion-card-title>
   </ion-card-header>
   <ion-card-content>
     <canvas
@@ -46,6 +46,22 @@
   </div>
 </div>
 
-<div class="history-container">
-
+<div class="history-container" *ngIf="history.length">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>History</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="history" *ngFor="let singleHistory of getLastTwoHistory()">
+        <div class="detail">
+          <p class="detail-type-title">{{(singleHistory.description !== undefined) ? "Retired" : "Added"}}</p>
+          <p class="subtitle-detail">Total retired</p>
+          <p class="value">{{singleHistory.value}}$</p>
+        </div>
+        <div class="date">
+          <p>{{singleHistory.createdAt}}</p>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
 </div>

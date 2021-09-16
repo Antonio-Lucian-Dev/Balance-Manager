@@ -5,7 +5,8 @@ $text-color: #ffff;
 }
 
 .title {
-  color: #ffff;
+  color: $text-color;
+  font-size: 22px;
 }
 
 .container-cards {
@@ -41,6 +42,49 @@ $text-color: #ffff;
       }
       .balance-display {
         text-align: center;
+      }
+    }
+  }
+}
+
+.history-container {
+  margin-bottom: 103px;
+  ion-card {
+    --background: var(--ion-color-primary) !important;
+    ion-card-title {
+      color: $text-color;
+      font-size: 22px;
+    }
+
+    .history {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #636363;
+      padding-bottom: 15px;
+
+      .detail-type-title {
+        color: $text-color;
+        font-size: 17px;
+        margin-bottom: 3px;
+      }
+
+      .subtitle-detail {
+        color: #686f79;
+        font-size: 12px;
+        margin-bottom: 4px;
+      }
+
+      .value {
+        color: $text-color;
+        font-size: 17px;
+      }
+      .date {
+        p {
+          color: $text-color;
+          font-size: 14px;
+        }
       }
     }
   }
