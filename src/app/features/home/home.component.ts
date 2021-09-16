@@ -7,6 +7,7 @@ import * as Chart from 'chart.js';
 import { formatNumber } from '@angular/common';
 import { async } from 'rxjs';
 import { AlertController } from '@ionic/angular';
+import { History } from '../types/history';
 
 @Component({
   selector: 'app-home',
@@ -38,6 +39,8 @@ export class HomeComponent implements OnInit {
 
   private totalWithdrawal = 0;
 
+  private history: History[] = [];
+
   constructor(
     public modalController: ModalController,
     @Inject(LOCALE_ID) public locale: string,
@@ -49,8 +52,8 @@ export class HomeComponent implements OnInit {
   public addBalance(): void {
     this.presentModal('balance');
   }
-  public addBudget(): void {
-    this.presentModal('budget');
+  public addWithdrawal(): void {
+    this.presentModal('withdrawal');
   }
 
   async presentModal(type: string) {
@@ -62,11 +65,12 @@ export class HomeComponent implements OnInit {
     });
     modal.onDidDismiss().then((data) => {
       if (data.data) {
-        if (data.data.type === 'balance') {
+        if (data.data.isBalance) {
           this.addValueToBalance(data.data.value);
         } else {
           this.addValueToWithdrawals(data.data.value);
         }
+        this.addHistory(data.data);
       }
     });
     return await modal.present();
@@ -74,7 +78,7 @@ export class HomeComponent implements OnInit {
 
 
   private addValueToBalance(currentBalance: number): void {
-    if(currentBalance > 0) {
+    if(currentBalance > 0 && currentBalance >= this.totalWithdrawal) {
       this.remainingBalance = (this.totalWithdrawal > 0) ? currentBalance - this.totalWithdrawal : currentBalance;
       this.doughnutChartData[0][1] = this.remainingBalance;
       this.currentBalance = formatNumber(this.remainingBalance, this.locale);
@@ -129,5 +133,15 @@ export class HomeComponent implements OnInit {
       buttons: ['OK'],
     });
     await alert.present();
+  }
+
+  private addHistory(detail: any): void {
+   const createHistory: History = {
+     value: detail.value,
+     description: detail.motivationOfWithdrawal,
+     createdAt: detail.createdAt
+   };
+   this.history.push(createHistory);
+   console.log(this.history);
   }
 }

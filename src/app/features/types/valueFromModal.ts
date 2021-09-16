@@ -1,4 +1,6 @@
 export interface ValueFromModal {
-  value: number;
-  type: string;
+  value: string;
+  motivationOfWithdrawal?: string;
+  createdAt: string;
+  isBalance: boolean;
 }

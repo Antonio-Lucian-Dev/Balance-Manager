@@ -1,11 +1,23 @@
 <div class="container">
- <div class="top">
-  <h2>Add</h2>
-  <ion-icon name="close" (click)="dismiss()"></ion-icon>
- </div>
-    <div class="container-input">
-      <ion-label>{{label}}</ion-label>
-      <ion-input type="number" [(ngModel)]="inputValue" placeholder="Insert a value"></ion-input>
-      <ion-button expand="block" (click)="addValue()">Send</ion-button>
-    </div>
+  <div class="top">
+    <h2>Add</h2>
+    <ion-icon name="close" (click)="dismiss()"></ion-icon>
+  </div>
+  <div class="container-input">
+    <form [formGroup]="modalForm" (ngSubmit)="submitForm()" novalidate>
+      <div class="box">
+        <ion-label>{{ label }}</ion-label>
+        <ion-input
+          type="number"
+          formControlName="value"
+          placeholder="Insert a value"
+        ></ion-input>
+      </div>
+      <div class="box" *ngIf="!isBalance">
+        <ion-label>Insert motivation of Withdrawal</ion-label>
+        <ion-textarea formControlName="motivationOfWithdrawal" placeholder="I withdrew money for..."></ion-textarea>
+      </div>
+      <ion-button expand="block" type="submit">Send</ion-button>
+    </form>
+  </div>
 </div>

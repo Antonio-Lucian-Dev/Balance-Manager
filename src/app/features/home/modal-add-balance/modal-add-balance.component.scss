@@ -45,3 +45,25 @@ ion-button {
   width: 65%;
   --background: var(--ion-color-secondary) !important;
 }
+
+.box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 45px;
+
+  ion-textarea {
+    width: 65%;
+    border: 1px solid $text-color;
+    color: $text-color;
+    padding: 5px 5px;
+  }
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
