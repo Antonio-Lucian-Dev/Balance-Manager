@@ -1,3 +1,4 @@
+import { ExchangeService } from './../services/exchange.service';
 import { ModalAddBalanceComponent } from './modal-add-balance/modal-add-balance.component';
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
@@ -7,6 +8,7 @@ import * as Chart from 'chart.js';
 import { formatNumber } from '@angular/common';
 import { AlertController } from '@ionic/angular';
 import { History } from '../types/history';
+import { Exchange } from '../types/exchange';
 
 @Component({
   selector: 'app-home',
@@ -37,6 +39,7 @@ export class HomeComponent implements OnInit {
   };
 
   public history: History[] = [];
+  public exchangeData: Exchange;
   private totalWithdrawal = 0;
   private valueFromModal;
 
@@ -44,9 +47,12 @@ export class HomeComponent implements OnInit {
     public modalController: ModalController,
     @Inject(LOCALE_ID) public locale: string,
     public alertController: AlertController,
+    public exchangeService: ExchangeService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getExchangeValue();
+  }
 
   public addBalance(): void {
     this.presentModal('balance');
@@ -156,5 +162,11 @@ export class HomeComponent implements OnInit {
    };
    this.history.push(createHistory);
    console.log(this.history);
+  }
+
+  private getExchangeValue(): void {
+    this.exchangeService.getExchangeToday().subscribe((data: Exchange) => {
+      this.exchangeData = data;
+    });
   }
 }

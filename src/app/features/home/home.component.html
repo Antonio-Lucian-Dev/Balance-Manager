@@ -40,7 +40,7 @@
     <ion-card class="exchange">
       <ion-card-content>
         <ion-icon name="swap-horizontal-outline"></ion-icon>
-        <p>Exchange today</p>
+        <p>Exchange today<br/><span *ngIf="exchangeData">{{exchangeData.rates.RON | number: '1.0-2'}} %</span></p>
       </ion-card-content>
     </ion-card>
   </div>
