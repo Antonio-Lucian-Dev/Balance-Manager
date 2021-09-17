@@ -162,10 +162,10 @@ export class HomeComponent implements OnInit {
    const createHistory: History = {
      value: detail.value,
      description: detail.motivationOfWithdrawal,
-     createdAt: detail.createdAt
+     createdAt: detail.createdAt,
+     currency: detail.currency
    };
    this.history.push(createHistory);
-   console.log(this.history);
   }
 
   private getExchangeValue(): void {

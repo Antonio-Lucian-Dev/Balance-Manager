@@ -20,6 +20,7 @@ export class ModalAddBalanceComponent implements OnInit {
     motivationOfWithdrawal: ['', [Validators.required]],
     createdAt: [''],
     isBalance: [''],
+    currency: ['']
   });
 
   constructor(
@@ -32,9 +33,11 @@ export class ModalAddBalanceComponent implements OnInit {
     if (this.type === 'balance') {
       this.label = 'Insert your Balance';
       this.isBalance = true;
+      this.modalForm.controls.currency.setValue('€');
     } else {
       this.label = 'Insert your Widthdrwal in currency RON';
       this.isBalance = false;
+      this.modalForm.controls.currency.setValue('Ron');
     }
   }
 
@@ -54,6 +57,7 @@ export class ModalAddBalanceComponent implements OnInit {
         value: this.modalForm.get('value').value,
         createdAt: this.modalForm.get('createdAt').value,
         isBalance: this.modalForm.get('isBalance').value,
+        currency: this.modalForm.get('currency').value
       };
       this.dismiss(response);
     }

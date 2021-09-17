@@ -3,4 +3,5 @@ export interface ValueFromModal {
   motivationOfWithdrawal?: string;
   createdAt: string;
   isBalance: boolean;
+  currency: string;
 }
