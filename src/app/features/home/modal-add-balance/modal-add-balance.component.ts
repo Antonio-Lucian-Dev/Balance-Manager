@@ -33,7 +33,7 @@ export class ModalAddBalanceComponent implements OnInit {
       this.label = 'Insert your Balance';
       this.isBalance = true;
     } else {
-      this.label = 'Insert your Budget';
+      this.label = 'Insert your Widthdrwal in currency RON';
       this.isBalance = false;
     }
   }

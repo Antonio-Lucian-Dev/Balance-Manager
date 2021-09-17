@@ -106,6 +106,9 @@ export class HomeComponent implements OnInit {
   }
 
   private addValueToWithdrawals(currentWithdrawal: number): void {
+    let currentExchangeFormatted: number = +this.exchangeData.rates.RON;
+    currentExchangeFormatted = +formatNumber(currentExchangeFormatted, this.locale, '1.0-2');
+    currentWithdrawal = +formatNumber((currentWithdrawal / currentExchangeFormatted), this.locale, '1.0-2');
     if(currentWithdrawal > 0) {
       if (
         this.withdrawals.length === 0 &&
@@ -113,7 +116,8 @@ export class HomeComponent implements OnInit {
       ) {
         this.withdrawals.push(currentWithdrawal);
         this.totalWithdrawal = currentWithdrawal;
-        this.remainingBalance = this.remainingBalance - currentWithdrawal;
+        this.remainingBalance = +formatNumber((this.remainingBalance - currentWithdrawal), this.locale, '1.0-1').replace(',', '');
+        console.log(this.remainingBalance);
         this.currentBalance = formatNumber(this.remainingBalance, this.locale);
         this.doughnutChartData[0][0] = this.totalWithdrawal;
         this.doughnutChartData[0][1] = this.remainingBalance;
@@ -127,7 +131,7 @@ export class HomeComponent implements OnInit {
             0
           );
           this.totalWithdrawal = calculateTotalWithdrawal;
-          this.remainingBalance = this.remainingBalance - currentWithdrawal;
+          this.remainingBalance = +formatNumber((this.remainingBalance - currentWithdrawal), this.locale, '1.0-2');
           this.currentBalance = formatNumber(this.remainingBalance, this.locale);
           this.doughnutChartData[0][0] = this.totalWithdrawal;
           this.doughnutChartData[0][1] = this.remainingBalance;
